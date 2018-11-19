@@ -25,6 +25,11 @@ module Webshot
       self
     end
 
+    def restart_session
+      Capybara.reset_sessions! unless @session_started
+      @session_started = false
+    end
+
     def valid_status_code?(status_code, allowed_status_codes)
       return true if status_code == 200
       return true if status_code / 100 == 3
@@ -43,10 +48,6 @@ module Webshot
         full = opts.fetch(:full, true)
         selector = opts.fetch(:selector, nil)
         allowed_status_codes = opts.fetch(:allowed_status_codes, [])
-
-        # Reset session before visiting url
-        Capybara.reset_sessions! unless @session_started
-        @session_started = false
 
         # Open page
         visit url
