@@ -49,9 +49,10 @@ module Webshot
         selector = opts.fetch(:selector, nil)
         allowed_status_codes = opts.fetch(:allowed_status_codes, [])
 
-        # Open page
-        visit url
-
+        if url.present?
+          # Open page
+          visit url
+        end
         # Timeout
         sleep opts[:timeout] if opts[:timeout]
 
